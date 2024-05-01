@@ -11,7 +11,7 @@ type Meiji struct {
 	day   int
 }
 
-func NewMeiji(year int, month int, day int) Meiji {
+func NewMeijiFromWestern(year int, month int, day int) Meiji {
 	return Meiji{gengo: "明治", year: int(year), month: int(month), day: int(day)}
 }
 

@@ -28,7 +28,7 @@ func getWesternDate(westernStrDate string) (int, int, int, error) {
 	return int(year), int(month), int(day), nil
 }
 
-func Resolve(strWesternDate string) (Wareki, error) {
+func ResolveFromWestern(strWesternDate string) (Wareki, error) {
 
 	year, month, day, err := getWesternDate(strWesternDate)
 
@@ -37,11 +37,11 @@ func Resolve(strWesternDate string) (Wareki, error) {
 	}
 
 	warekiList := []Wareki{
-		NewReiwa(year, month, day),
-		NewHeisei(year, month, day),
-		NewShowa(year, month, day),
-		NewTaisho(year, month, day),
-		NewMeiji(year, month, day),
+		NewReiwaFromWestern(year, month, day),
+		NewHeiseiFromWestern(year, month, day),
+		NewShowaFromWestern(year, month, day),
+		NewTaishoFromWestern(year, month, day),
+		NewMeijiFromWestern(year, month, day),
 	}
 
 	for _, wareki := range warekiList {

@@ -11,7 +11,7 @@ type Heisei struct {
 	day   int
 }
 
-func NewHeisei(year int, month int, day int) Heisei {
+func NewHeiseiFromWestern(year int, month int, day int) Heisei {
 	return Heisei{gengo: "平成", year: int(year), month: int(month), day: int(day)}
 }
 

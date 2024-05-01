@@ -11,7 +11,7 @@ type Showa struct {
 	day   int
 }
 
-func NewShowa(year int, month int, day int) Showa {
+func NewShowaFromWestern(year int, month int, day int) Showa {
 	return Showa{gengo: "昭和", year: int(year), month: int(month), day: int(day)}
 }
 

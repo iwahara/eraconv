@@ -11,7 +11,7 @@ type Taisho struct {
 	day   int
 }
 
-func NewTaisho(year int, month int, day int) Taisho {
+func NewTaishoFromWestern(year int, month int, day int) Taisho {
 	return Taisho{gengo: "大正", year: int(year), month: int(month), day: int(day)}
 }
 

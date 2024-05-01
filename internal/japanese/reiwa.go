@@ -11,7 +11,7 @@ type Reiwa struct {
 	day   int
 }
 
-func NewReiwa(year int, month int, day int) Reiwa {
+func NewReiwaFromWestern(year int, month int, day int) Reiwa {
 	return Reiwa{gengo: "令和", year: int(year), month: int(month), day: int(day)}
 }
 

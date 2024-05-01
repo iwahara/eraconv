@@ -19,7 +19,7 @@ func outputToday() error {
 	messageWestern := fmt.Sprintf("西暦：%s\n", western)
 	fmt.Print(messageWestern)
 
-	japanese, err := japanese.Resolve(western)
+	japanese, err := japanese.ResolveFromWestern(western)
 	if err != nil {
 		return err
 	}
@@ -55,7 +55,7 @@ func outputDate(arg string) error {
 		//和暦から西暦へ変換する
 	} else {
 		//西暦から和暦へ変換する（バリデーションで不正なものはすべて弾いているので）
-		wareki, err := japanese.Resolve(arg)
+		wareki, err := japanese.ResolveFromWestern(arg)
 
 		if err != nil {
 			return err
