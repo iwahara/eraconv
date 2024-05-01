@@ -2,6 +2,7 @@ package japanese
 
 import (
 	"fmt"
+	"regexp"
 	"strconv"
 	"strings"
 )
@@ -51,4 +52,77 @@ func ResolveFromWestern(strWesternDate string) (Wareki, error) {
 	}
 
 	return nil, fmt.Errorf("対応外の日付です[%s]", strWesternDate)
+}
+
+func getWarekiDate(strWarekiDate string) (string, int, int, int, error) {
+	reEra := regexp.MustCompile(`^(令和|平成|昭和|大正|明治)`)
+	reYear := regexp.MustCompile(`(\d+|元)年`)
+	reMonth := regexp.MustCompile(`(\d+)月`)
+	reDay := regexp.MustCompile(`(\d+)日`)
+
+	eraMatch := reEra.FindStringSubmatch(strWarekiDate)
+	yearMatch := reYear.FindStringSubmatch(strWarekiDate)
+	monthMatch := reMonth.FindStringSubmatch(strWarekiDate)
+	dayMatch := reDay.FindStringSubmatch(strWarekiDate)
+
+	if len(eraMatch) < 2 {
+		return "", 0, 0, 0, fmt.Errorf("元号が見つかりませんでした。入力された文字列[%s]", strWarekiDate)
+	}
+
+	if len(yearMatch) < 2 {
+		return "", 0, 0, 0, fmt.Errorf("年が見つかりませんでした。入力された文字列[%s]", strWarekiDate)
+	}
+
+	if len(monthMatch) < 2 {
+		return "", 0, 0, 0, fmt.Errorf("月が見つかりませんでした。入力された文字列[%s]", strWarekiDate)
+	}
+
+	if len(dayMatch) < 2 {
+		return "", 0, 0, 0, fmt.Errorf("日が見つかりませんでした。入力された文字列[%s]", strWarekiDate)
+	}
+
+	year, err := strconv.ParseInt(yearMatch[1], 10, 32)
+	if err != nil {
+		if yearMatch[1] != "元" {
+			return "", 0, 0, 0, fmt.Errorf("年が数字ではないかもしれません。year[%s]", yearMatch[1])
+		}
+		year = 1
+	}
+
+	month, err := strconv.ParseInt(monthMatch[1], 10, 32)
+	if err != nil {
+		return "", 0, 0, 0, fmt.Errorf("月が数字ではないかもしれません。month[%s]", monthMatch[1])
+	}
+
+	day, err := strconv.ParseInt(dayMatch[1], 10, 32)
+	if err != nil {
+		return "", 0, 0, 0, fmt.Errorf("日が数字ではないかもしれません。day[%s]", dayMatch[1])
+	}
+
+	return eraMatch[1], int(year), int(month), int(day), nil
+}
+
+func ResolveFromWareki(strWarekiDate string) (Wareki, error) {
+
+	gengo, year, month, day, err := getWarekiDate(strWarekiDate)
+
+	if err != nil {
+		return nil, err
+	}
+
+	warekiList := []Wareki{
+		NewReiwaFromWareki(gengo, year, month, day),
+		NewHeiseiFromWareki(gengo, year, month, day),
+		NewShowaFromWareki(gengo, year, month, day),
+		NewTaishoFromWareki(gengo, year, month, day),
+		NewMeijiFromWareki(gengo, year, month, day),
+	}
+
+	for _, wareki := range warekiList {
+		if wareki.Resolve() {
+			return wareki, nil
+		}
+	}
+
+	return nil, fmt.Errorf("対応外の日付です[%s]", strWarekiDate)
 }

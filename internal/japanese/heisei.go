@@ -15,8 +15,16 @@ func NewHeiseiFromWestern(year int, month int, day int) Heisei {
 	return Heisei{gengo: "平成", year: year - 1988, month: month, day: day}
 }
 
+func NewHeiseiFromWareki(gengo string, year int, month int, day int) Heisei {
+	return Heisei{gengo: gengo, year: year, month: month, day: day}
+}
+
 func (r Heisei) Resolve() bool {
 	// 平成は1989年1月8日から2019年4月30日(平成31年)まで
+
+	if r.GetGengo() != "平成" {
+		return false
+	}
 
 	if r.GetYear() < 1 {
 		return false
@@ -54,4 +62,7 @@ func (r Heisei) ToString() string {
 		return fmt.Sprintf("%s元年%d月%d日", r.GetGengo(), r.month, r.day)
 	}
 	return fmt.Sprintf("%s%d年%d月%d日", r.GetGengo(), r.GetYear(), r.GetMonth(), r.GetDay())
+}
+func (r Heisei) ToWesternString() string {
+	return fmt.Sprintf("%d年%d月%d日", (r.GetYear() + 1988), r.GetMonth(), r.GetDay())
 }

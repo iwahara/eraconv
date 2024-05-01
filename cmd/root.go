@@ -53,6 +53,14 @@ func isWareki(arg string) bool {
 func outputDate(arg string) error {
 	if isWareki(arg) {
 		//和暦から西暦へ変換する
+		wareki, err := japanese.ResolveFromWareki(arg)
+
+		if err != nil {
+			return err
+		}
+
+		fmt.Println(wareki.ToWesternString())
+
 	} else {
 		//西暦から和暦へ変換する（バリデーションで不正なものはすべて弾いているので）
 		wareki, err := japanese.ResolveFromWestern(arg)

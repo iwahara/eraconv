@@ -7,4 +7,5 @@ type Wareki interface {
 	GetMonth() int
 	GetDay() int
 	ToString() string
+	ToWesternString() string
 }
