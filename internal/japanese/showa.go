@@ -12,7 +12,7 @@ type Showa struct {
 }
 
 func NewShowaFromWestern(year int, month int, day int) Showa {
-	return Showa{gengo: "昭和", year: int(year), month: int(month), day: int(day)}
+	return Showa{gengo: "昭和", year: year - 1925, month: month, day: day}
 }
 
 func (r Showa) Resolve() bool {
@@ -46,7 +46,7 @@ func (r Showa) GetGengo() string {
 }
 
 func (r Showa) GetYear() int {
-	return r.year - 1925
+	return r.year
 }
 
 func (r Showa) GetMonth() int {
@@ -58,7 +58,7 @@ func (r Showa) GetDay() int {
 
 func (r Showa) ToString() string {
 	if r.GetYear() == 1 {
-		return fmt.Sprintf("昭和元年%d月%d日", r.month, r.day)
+		return fmt.Sprintf("%s元年%d月%d日", r.GetGengo(), r.month, r.day)
 	}
-	return fmt.Sprintf("昭和%d年%d月%d日", r.GetYear(), r.GetMonth(), r.GetDay())
+	return fmt.Sprintf("%s%d年%d月%d日", r.GetGengo(), r.GetYear(), r.GetMonth(), r.GetDay())
 }

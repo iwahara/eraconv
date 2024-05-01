@@ -12,7 +12,7 @@ type Meiji struct {
 }
 
 func NewMeijiFromWestern(year int, month int, day int) Meiji {
-	return Meiji{gengo: "明治", year: int(year), month: int(month), day: int(day)}
+	return Meiji{gengo: "明治", year: year - 1867, month: month, day: day}
 }
 
 func (r Meiji) Resolve() bool {
@@ -41,7 +41,7 @@ func (r Meiji) GetGengo() string {
 }
 
 func (r Meiji) GetYear() int {
-	return r.year - 1867
+	return r.year
 }
 
 func (r Meiji) GetMonth() int {
@@ -53,7 +53,7 @@ func (r Meiji) GetDay() int {
 
 func (r Meiji) ToString() string {
 	if r.GetYear() == 1 {
-		return fmt.Sprintf("明治元年%d月%d日", r.month, r.day)
+		return fmt.Sprintf("%s元年%d月%d日", r.GetGengo(), r.month, r.day)
 	}
-	return fmt.Sprintf("明治%d年%d月%d日", r.GetYear(), r.GetMonth(), r.GetDay())
+	return fmt.Sprintf("%s%d年%d月%d日", r.GetGengo(), r.GetYear(), r.GetMonth(), r.GetDay())
 }

@@ -12,7 +12,7 @@ type Reiwa struct {
 }
 
 func NewReiwaFromWestern(year int, month int, day int) Reiwa {
-	return Reiwa{gengo: "令和", year: int(year), month: int(month), day: int(day)}
+	return Reiwa{gengo: "令和", year: year - 2018, month: month, day: day}
 }
 
 func (r Reiwa) Resolve() bool {
@@ -33,7 +33,7 @@ func (r Reiwa) GetGengo() string {
 }
 
 func (r Reiwa) GetYear() int {
-	return r.year - 2018
+	return r.year
 }
 
 func (r Reiwa) GetMonth() int {
@@ -45,7 +45,7 @@ func (r Reiwa) GetDay() int {
 
 func (r Reiwa) ToString() string {
 	if r.GetYear() == 1 {
-		return fmt.Sprintf("令和元年%d月%d日", r.month, r.day)
+		return fmt.Sprintf("%s元年%d月%d日", r.GetGengo(), r.month, r.day)
 	}
-	return fmt.Sprintf("令和%d年%d月%d日", r.GetYear(), r.GetMonth(), r.GetDay())
+	return fmt.Sprintf("%s%d年%d月%d日", r.GetGengo(), r.GetYear(), r.GetMonth(), r.GetDay())
 }

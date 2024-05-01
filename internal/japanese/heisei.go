@@ -12,7 +12,7 @@ type Heisei struct {
 }
 
 func NewHeiseiFromWestern(year int, month int, day int) Heisei {
-	return Heisei{gengo: "平成", year: int(year), month: int(month), day: int(day)}
+	return Heisei{gengo: "平成", year: year - 1988, month: month, day: day}
 }
 
 func (r Heisei) Resolve() bool {
@@ -39,7 +39,7 @@ func (r Heisei) GetGengo() string {
 }
 
 func (r Heisei) GetYear() int {
-	return r.year - 1988
+	return r.year
 }
 
 func (r Heisei) GetMonth() int {
@@ -51,7 +51,7 @@ func (r Heisei) GetDay() int {
 
 func (r Heisei) ToString() string {
 	if r.GetYear() == 1 {
-		return fmt.Sprintf("平成元年%d月%d日", r.month, r.day)
+		return fmt.Sprintf("%s元年%d月%d日", r.GetGengo(), r.month, r.day)
 	}
-	return fmt.Sprintf("平成%d年%d月%d日", r.GetYear(), r.GetMonth(), r.GetDay())
+	return fmt.Sprintf("%s%d年%d月%d日", r.GetGengo(), r.GetYear(), r.GetMonth(), r.GetDay())
 }
